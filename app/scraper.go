@@ -8,13 +8,16 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"strings"
 )
 
 // Scrape a word from translator website
 func (app *Application) ScrapeWord(word string) (string, error) {
+
+	word = strings.ReplaceAll(word, " ", "-")
 	var wordTranslate = ""
-	var WordUrl = fmt.Sprintf("%s/%s", app.Config.BaseUrl, word)
-	res, err := http.Get(WordUrl)
+	var wordUrl = fmt.Sprintf("%s/%s", app.Config.BaseUrl, word)
+	res, err := http.Get(wordUrl)
 	if err != nil || res.StatusCode != 200 {
 		app.Logger.Error("err to get the word", zap.Error(err), zap.Any("word", word), zap.Any("status_code", res.StatusCode))
 		return "", err
@@ -27,6 +30,15 @@ func (app *Application) ScrapeWord(word string) (string, error) {
 	if err != nil {
 		app.Logger.Error("err on load html", zap.Error(err), zap.Any("word", word))
 		return "", err
+	}
+
+	// if user want the full html of the page
+	if app.Config.DesireOutPut == "full_html" {
+		fullPageMarkup, err := doc.Html()
+		if err != nil {
+			app.Logger.Error("err on get full page markup", zap.Error(err), zap.Any("wordUrl", wordUrl))
+		}
+		return fullPageMarkup, nil
 	}
 
 	doc.Find(".entry_content").Each(func(i int, s *goquery.Selection) {

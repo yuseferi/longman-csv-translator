@@ -9,6 +9,7 @@ type Config struct {
 	BaseUrl           string `env:"TRANSLATOR_URL" envDefault:"https://www.ldoceonline.com/dictionary/"`
 	CSVWordInputFile  string `env:"WORD_CSV_INPUT_FILE" envDefault:"words.csv"`
 	CSVWordOutputFile string `env:"WORD_CSV_OUT_PUTFILE" envDefault:"words_translated.csv"`
+	DesireOutPut string `env:"OUTPUT" envDefault:"full_html"`
 }
 
 func NewConfig() (cfg *Config, err error) {
