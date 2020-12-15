@@ -16,3 +16,4 @@ words_translated.csv
 # vendor/
 .idea
 .ENV
+vendor

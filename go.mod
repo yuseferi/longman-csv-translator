@@ -3,6 +3,7 @@ module github.com/yuseferi/longman-csv-translator
 go 1.15
 
 require (
+	fyne.io/fyne v1.4.2
 	github.com/PuerkitoBio/goquery v1.6.0
 	github.com/caarlos0/env/v6 v6.4.0
 	github.com/jackc/pgx/v4 v4.10.0
